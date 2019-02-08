@@ -15,6 +15,7 @@ img
 h1, h2
 {
 	font-family: 'Playfair Display'!important;
+	color: #ec8d04 !important;
 }
 
 
@@ -45,6 +46,7 @@ position: absolute;
 .titre_banniere h1, .titre_banniere p
 {
 	font-family: 'Playfair Display';
+	color: #ec8d04;
 }
 
 .logo_banniere
@@ -93,12 +95,12 @@ position: absolute;
 
 .bloc_php
 {
-	background-color: #00bcd4;
+	background-color: #bdd1e9;
 }
 
 .bloc_bootstrap
 {
-	background-color: #dadd17;
+	background-color: #ffc001;
 
 }
 
@@ -110,7 +112,7 @@ position: absolute;
 .footer
 {
 	width: 100%;
-	background-color: black;
+	background-color: #a4bad0;
 	color: white;
 	text-align: center;
 }

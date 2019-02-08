@@ -10,13 +10,13 @@ include('head.php');
 
 		<div class="bloc_default bloc_php">
 			<p>
-				<a href="" class="text_blocs">PHP & MySQL</a>
+				<a href="php/index.php" class="text_blocs">PHP & MySQL</a>
 			</p>
 		</div>
 
 		<div class="bloc_default bloc_bootstrap">
 			<p>
-				<a href="" class="text_blocs">BOOTSTRAP</a>
+				<a href="bootstrap/index.php" class="text_blocs">BOOTSTRAP</a>
 			</p>
 		</div>
 
@@ -24,7 +24,6 @@ include('head.php');
 
 	</div>
 	
-
 
 
 <?php include('footer.php'); ?>
