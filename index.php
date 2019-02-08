@@ -4,19 +4,19 @@ include('head.php');
 
 <body>
 
-	<h1>Thèmes</h1>
+	<h1 class="titre_themes">Thèmes</h1>
 
 	<div class="blocs">
 
 		<div class="bloc_default bloc_php">
 			<p>
-				<a href="">PHP</a>
+				<a href="" class="text_blocs">PHP & MySQL</a>
 			</p>
 		</div>
 
 		<div class="bloc_default bloc_bootstrap">
 			<p>
-				<a href="">BOOTSTRAP</a>
+				<a href="" class="text_blocs">BOOTSTRAP</a>
 			</p>
 		</div>
 
@@ -27,6 +27,6 @@ include('head.php');
 
 
 
-
+<?php include('footer.php'); ?>
 </body>
 </html>

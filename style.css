@@ -2,6 +2,11 @@
 
 
 /*  ************* REGLAGES GENERALS ************ */
+body
+{
+	font-family: 'Roboto';
+}
+
 img
 {
 	width: 100%;
@@ -15,17 +20,15 @@ h1, h2
 
 
 /*  ************* HEADER ET BANNIERE ************ */
-.image_banniere
-{
-	width: 100%;
-}
+
 
 .banniere
 {
 position: relative;
 height: 300px;
 overflow: hidden;
-
+background: url(images/tulipes.jpeg) no-repeat center;
+background-size: cover;
 }
 
 .titre_banniere
@@ -51,6 +54,10 @@ position: absolute;
 
 
 /*  ************* BLOCS INDEX ************ */
+.titre_themes
+{
+	margin: 20px;
+}
 
 .blocs
 {
@@ -64,9 +71,52 @@ position: absolute;
 	width: 20%;
 	height: 150px;
 	margin: 50px;
+	display: flex;
+	justify-content: center;
+	align-items: center;
+	border-radius: 10px;
+
+}
+
+.text_blocs
+{
+	font-size: 2.5em;
+	font-family: 'Playfair Display';
+	color: white;
+}
+
+.text_blocs:hover
+{
+	text-decoration: none;
+	color: white;
 }
 
 .bloc_php
 {
-	
+	background-color: #00bcd4;
+}
+
+.bloc_bootstrap
+{
+	background-color: #dadd17;
+
+}
+
+
+
+
+
+/*  ************* FOOTER ************ */
+.footer
+{
+	width: 100%;
+	background-color: black;
+	color: white;
+	text-align: center;
+}
+
+.footer p
+{
+	margin: 0px;
+	padding: 15px;
 }

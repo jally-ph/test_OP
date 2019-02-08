@@ -15,6 +15,7 @@
 	<link rel="icon" href="images/favicon.png" />
 	<!--google fonts-->
 	<link href="https://fonts.googleapis.com/css?family=Playfair+Display" rel="stylesheet">
+	<link href="https://fonts.googleapis.com/css?family=Roboto:300" rel="stylesheet">
 </head>
 <body>
 	
@@ -29,7 +30,7 @@
 			<h1>Cours et Tests</h1>
 			<p>Cours et tests pour Open Classrooms. 2019. JP</p>
 		</div>
-		<img src="images/tulipes.jpeg" alt="banniere" class="image_banniere">
+		
 	</div>
 
 
