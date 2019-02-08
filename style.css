@@ -1,0 +1,72 @@
+
+
+
+/*  ************* REGLAGES GENERALS ************ */
+img
+{
+	width: 100%;
+}
+
+h1, h2
+{
+	font-family: 'Playfair Display'!important;
+}
+
+
+
+/*  ************* HEADER ET BANNIERE ************ */
+.image_banniere
+{
+	width: 100%;
+}
+
+.banniere
+{
+position: relative;
+height: 300px;
+overflow: hidden;
+
+}
+
+.titre_banniere
+{
+position: absolute;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 300px;
+}
+
+.titre_banniere h1, .titre_banniere p
+{
+	font-family: 'Playfair Display';
+}
+
+.logo_banniere
+{
+	width: 7%;
+}
+
+
+/*  ************* BLOCS INDEX ************ */
+
+.blocs
+{
+	display: flex;
+	flex-wrap: wrap;
+	margin: 50px;
+}
+
+.bloc_default
+{
+	width: 20%;
+	height: 150px;
+	margin: 50px;
+}
+
+.bloc_php
+{
+	
+}
