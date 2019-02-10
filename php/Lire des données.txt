@@ -1,9 +1,10 @@
 08/02/2019
 
+		LISEZ DES DONNEES
 
-**LISEZ DES DONNEES**
 
-*Se connecter à la base de données en PHP*
+
+**Se connecter à la base de données en PHP**
 
 extension mysql_ => vieilles fonctions qu'il ne faut plus utiliser
 
@@ -239,6 +240,83 @@ $reponse = $bdd->query('SELECT nom FROM jeux_video WHERE possesseur=\'' . $_GET[
 
 
 *La solution : les requêtes préparées*
+
+moyen plus sûr et rapide pour la bdd
+requête préparée => vaut mieux l'uitliser pr adapter une requête en fonction d'une ou pls $
+
+AVEC DES MARQUEURS "?"
+
+on prépare d'abord la requête (sans la variable$)
+pr ce faire, mettre un "?" :
+
+<?php
+$req = $bdd->prepare('SELECT nom FROM jeux_video WHERE possesseur = ?');
+?>
+
+au lieu de mettre QUERY, on met PREPARE() !! La quête est prête. 
+
+on éxécute la requête et on appelle la liste des paramètres :
+
+<?php
+$req = $bdd->prepare('SELECT nom FROM jeux_video WHERE possesseur = ?');
+$req->execute(array($_GET['possesseur']));
+?>
+
+si pls paramètres, attention à mettre dans le bon ordre :
+
+<?php
+$req = $bdd->prepare('SELECT nom FROM jeux_video WHERE possesseur = ? AND prix <= ?');
+$req->execute(array($_GET['possesseur'], $_GET['prix_max']));
+?>
+
+=> les pts d'interrogations seront automatiquement remplacé respectivement par le contenu
+des variables: $_GET['possesseur'] et $_GET['prix_max']. Le contenu des $ est automatiquemt
+sécurisé; aucun risque d'injection SQL.
+
+****ne pas oublier que les $ get doivent être définis en qq part.
+
+
+AVEC DES MARQUEURS NOMINATIFS
+
+si requête avec bcoup de $, plus pratique de nommer directement les $, au lieu du "?" :
+
+<?php
+$req = $bdd->prepare('SELECT nom, prix FROM jeux_video WHERE possesseur = :possesseur AND prix <= :prixmax');
+$req->execute(array('possesseur' => $_GET['possesseur'], 'prixmax' => $_GET['prix_max']));
+?>
+
+au lieu des "?" : il y a des Marqueurs Nominatifs ( :possesseur ) symbole 2 pts.
++ array associatif
+=> dans ce cas : l'ordre ne compte pas
+
+
+**Traquer les erreurs**
+
+Qd requête SQL plante => PHP dira erreur à fetch()  :
+Fatal error: Call to a member function fetch() on a non-object in C:\wamp\www\tests\index.php on line 13
+
+ce n'est pas fetch() qui cloche, erreur dans requête SQL plus haut
+
+pr avoir des détails sur l'erreur => activer erreurs lors de la connexion à la bdd via PDO :
+
+<?php
+$bdd = new PDO('mysql:host=localhost;dbname=test;charset=utf8', 'root', '', 
+array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
+?>
+
+
+
+
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
+
+
+
+
+
 
 
 

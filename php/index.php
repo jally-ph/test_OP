@@ -18,9 +18,9 @@
 
 <body>
 	
+	<p><a href="lire_des_donnees.php">Lire et écrire des données</a></p>
 
-
-	<p><a href="lire_des_donnees.php">Lire des données</a></p>
+	<p><a href="tp_minichat.php">TP Mini-chat</a></p>
 
 	
 </body>

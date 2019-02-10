@@ -1,7 +1,11 @@
+
 <?php
 // Sous WAMP (Windows)
-$bdd = new PDO('mysql:host=localhost;dbname=test;charset=utf8', 'root', '');
+$bdd = new PDO('mysql:host=localhost;dbname=test;charset=utf8', 'root', '', 
+array(PDO::ATTR_ERRMODE => PDO::ERRMODE_EXCEPTION));
 ?>
+
+
 
 <?php
 try
@@ -88,6 +92,65 @@ while ($donnees = $reponse->fetch())
 }
 
 $reponse->closeCursor();
+
+//---------------nouvelle requête --------------------->
+
+include('selection_jeux.php');
+
+$req = $bdd->prepare('SELECT nom, prix FROM jeux_video WHERE possesseur = ?  AND prix <= ? ORDER BY prix');
+$req->execute(array($_GET['possesseur'], $_GET['prix_max']));
+
+echo '<ul>';
+while ($donnees = $req->fetch())
+{
+	echo '<li>' . $donnees['nom'] . ' (' . $donnees['prix'] . ' EUR)</li>';
+}
+echo '</ul>';
+
+$req->closeCursor();
+
+
+//---------------nouvelle requête --------------------->
+
+
+// On ajoute une entrée dans la table jeux_video
+//$bdd->exec('INSERT INTO jeux_video(nom, possesseur, console, prix, nbre_joueurs_max, commentaires) VALUES(\'Battlefield 1942\', \'Patrick\', \'PC\', 45, 50, \'2nde guerre mondiale\')');
+
+//echo 'Le jeu a bien été ajouté !';
+
+
+
+$bdd->exec('UPDATE jeux_video SET prix = 10, nbre_joueurs_max = 32 WHERE ID = 51');
+
+echo 'Le jeu a bien été ajouté !';
+
+
+//---------------nouvelle requête --------------------->
+
+//on ajoute une entrée variable avec des requêtes préparées !
+/*
+$req = $bdd->prepare('INSERT INTO jeux_video(nom, possesseur, console, prix, nbre_joueurs_max, commentaires) VALUES(:nom, :possesseur, :console, :prix, :nbre_joueurs_max, :commentaires)');
+$req->execute(array(
+	'nom' => $nom,
+	'possesseur' => $possesseur,
+	'console' => $console,
+	'prix' => $prix,
+	'nbre_joueurs_max' => $nbre_joueurs_max,
+	'commentaires' => $commentaires
+	));
+
+echo 'Le jeu a bien été ajouté !';
+*/
+
+//---------------nouvelle requête --------------------->
+
+
+$nb_modifs = $bdd->exec('UPDATE jeux_video SET possesseur = \'Florent\' WHERE possesseur = \'Michel\'');
+echo $nb_modifs . ' entrées ont été modifiées !';
+
+
+
+$bdd->exec('DELETE FROM jeux_video WHERE nom=\'Battlefield 1942\' ');
 
 ?>
 
