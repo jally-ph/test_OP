@@ -1,0 +1,103 @@
+
+
+/* ******************** TP MINI CHAT ******************* */
+.banniere_minichat
+{
+	height: 200px;
+	margin-bottom: 50px;
+	background: url(https://images.unsplash.com/photo-1526796836-4da91257199a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1051&q=80) no-repeat center;
+	background-size: cover;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.banniere_minichat h1
+{
+	text-align: center;
+	color: #832cf3;
+	font-family: 'Staatliches';
+	font-size: 4em;
+}
+
+
+.container
+{
+	width: 50%;
+}
+
+#id_form_minichat
+{
+	display: flex;
+	flex-direction: column;
+	width: 60%;
+	margin: auto;
+	padding: 50px;
+	border-radius: 10px;
+	border: 1px solid #94f797;
+	background-color: #dfffdbbd;
+}
+
+#id_form_minichat label
+{
+	color: #3c9f40;
+}
+
+.pseudos
+{
+	color: #a149d1;
+}
+
+
+.messages
+{
+	color: #787878;
+}
+
+.form_minichat
+{
+	border-radius: 5px;
+	border: none;
+	background-color: #d0fbcb;
+	color: #4a7650;
+	margin-bottom: 20px;
+}
+
+.form_zonemsg
+{
+	display: flex;
+}
+
+.zone_msg
+{
+	width: 50%;
+}
+
+.minichat_submit
+{
+	
+	padding: 5px;
+	border: none;
+	border-radius: 5px;
+	background-color: #beabf959;
+	color: #921fca;
+}
+
+.minichat_submit:hover
+{
+	background-color: #ab99e559;
+}
+
+
+.logo_minichat img
+{
+	width: 100%;
+}
+
+.logo_minichat
+{
+	width: 13%;
+	margin: auto;
+	height: 140px;
+}
