@@ -18,9 +18,15 @@
 
 <body>
 	
-	<p><a href="lire_des_donnees.php">Lire et écrire des données</a></p>
+	<p><a href="lire_des_donnees.php" class="links_php">Lire et écrire des données</a></p>
 
-	<p><a href="tp_minichat.php">TP Mini-chat</a></p>
+	<p><a href="tp_minichat.php" class="links_php">TP Mini-chat</a></p>
+
+	<p><a href="fonctions_sql.php" class="links_php">Les Fonctions SQL</a></p>
+
+	<p><a href="tp_blog.php" class="links_php">TP Blog</a></p>
+
+	<p><a href="commentaires.php" class="links_php">TP Blog commentaires</a></p>
 
 	
 </body>

@@ -1,0 +1,368 @@
+11/02/2019
+
+
+			TP : un blog avec des commentaires
+
+
+
+Le blog est probablement l'application la plus courante que l'on réalise en PHP avec MySQL. Bien qu'il soit conseillé d'utiliser un système tout prêt (en téléchargeant Wordpress ou Dotclear, par exemple), en créer un de toutes pièces est un excellent exercice.
+
+Le but de ce TP n'est pas de vous faire créer un blog de A à Z, car ce serait un peu long, mais plutôt d'appliquer les dernières notions de SQL que vous venez d'apprendre sur les fonctions et les dates.
+
+Chaque billet du blog possèdera ses propres commentaires. Dans ce TP, nous nous concentrerons uniquement sur l'affichage des billets et des commentaires ; ce sera à vous par la suite de compléter le blog pour y insérer des formulaires d'ajout et de modification du contenu.
+
+Instructions pour réaliser le TP
+Pour ce TP comme pour le précédent, nous allons nous préparer ensemble en passant en revue les points suivants :
+
+prérequis ;
+
+objectifs ;
+
+structure de la table MySQL ;
+
+structure des pages PHP.
+
+Prérequis
+Dans ce TP, nous allons nous concentrer sur la base de données. Nous aurons besoin des notions suivantes :
+
+lire dans une table ;
+
+utilisation de PDO et des requêtes préparées ;
+
+utilisation de fonctions SQL ;
+
+manipulation des dates en SQL.
+
+Objectifs
+Commençons par définir ce qu'on veut arriver à faire. Un système de blog avec des commentaires, oui, mais encore ? Il faut savoir jusqu'où on veut aller, ce qu'on a l'intention de réaliser et ce qu'on va laisser de côté.
+
+Si on est trop ambitieux, on risque de le regretter : on pourrait en effet y passer des jours et ce TP deviendrait long, complexe et fastidieux. Je vous propose donc de réaliser l'affichage de base d'un blog et des commentaires associés aux billets, et je vous inviterai par la suite à l'améliorer pour créer l'interface de gestion des billets et d'ajout de commentaires.
+
+L'ajout de billets et de commentaires n'est donc pas au programme de ce TP, ce qui va nous permettre de nous concentrer sur l'affichage de ces derniers.
+
+Les pages à développer
+Il y aura deux pages à réaliser :
+
+index.php : liste des cinq derniers billets ;
+
+commentaires.php : affichage d'un billet et de ses commentaires.
+
+Voici, en figure suivante, à quoi devrait ressembler la liste des derniers billets (index.php).
+
+Liste des billets
+Liste des billets
+Et en figure suivante, à quoi devrait ressembler l'affichage d'un billet et de ses commentaires (commentaires.php).
+
+Liste des commentaires
+Liste des commentaires
+Comme vous pouvez le constater, l'affichage est minimaliste. Le but n'est pas de réaliser le design de ce blog mais bel et bien d'obtenir quelque chose de fonctionnel.
+
+Le CSS
+Voici le fichier CSS (très simple) que j'utiliserai pour ce TP :
+
+h1, h3
+{
+    text-align:center;
+}
+h3
+{
+    background-color:black;
+    color:white;
+    font-size:0.9em;
+    margin-bottom:0px;
+}
+.news p
+{
+    background-color:#CCCCCC;
+    margin-top:0px;
+}
+.news
+{
+    width:70%;
+    margin:auto;
+}
+
+a
+{
+    text-decoration: none;
+    color: blue;
+}
+Libre à vous de l'utiliser ou non, de le modifier ; bref, faites-en ce que vous voulez. ;-)
+
+Structure des tables MySQL
+Eh oui, cette fois nous allons travailler avec non pas une mais deux tables :
+
+billets : liste des billets du blog ;
+
+commentaires : liste des commentaires du blog pour chaque billet.
+
+On va vraiment stocker tous les commentaires dans une seule table, même s'ils concernent des billets différents ?
+
+Oui. C'est la bonne façon de faire. Tous les commentaires, quel que soit le billet auquel ils se rapportent, seront stockés dans la même table. On pourra faire le tri facilement à l'aide d'un champid_billetqui indiquera pour chaque commentaire le numéro du billet associé.
+
+Voici la structure que je propose pour la tablebillets :
+
+id(int) : identifiant du billet, clé primaire etauto_increment ;
+
+titre(varchar 255) : titre du billet ;
+
+contenu(text) : contenu du billet ;
+
+date_creation(datetime) : date et heure de création du billet.
+
+De même, voici la structure que l'on va utiliser pour la tablecommentaires :
+
+id(int) : identifiant du commentaire, clé primaire etauto_increment ;
+
+id_billet(int) : identifiant du billet auquel correspond ce commentaire ;
+
+auteur(varchar 255) : auteur du commentaire ;
+
+commentaire(text) : contenu du commentaire ;
+
+date_commentaire(datetime) : date et heure auxquelles le commentaire a été posté.
+
+C'est vraiment la base. Vous pouvez ajouter d'autres champs si vous le désirez. Par exemple, on n'a pas défini de champauteurpour les billets.
+
+Notez qu'il est possible d'ajouter des champs à tout moment, comme nous l'avons vu il y a peu. L'interface phpMyAdmin propose des options pour cela.
+
+Comme nous n'allons pas créer les formulaires d'ajout de billets et de commentaires dans un premier temps, je vous conseille de remplir vous-mêmes les tables à l'aide de phpMyAdmin après les avoir créées.
+
+Si vous êtes du genre flemmards, vous pouvez aussi télécharger mes tables toutes prêtes avec quelques données à l'intérieur, mais je vous recommande de vous entraîner à les créer vous-mêmes.
+
+Structure des pages PHP
+Étant donné que nous nous concentrons sur l'affichage, la structure des pages reste très simple, comme l'atteste la figure suivante.
+
+Structure des pages du blog
+Structure des pages du blog
+Le visiteur arrive d'abord sur l'index où sont affichés les derniers billets. S'il choisit d'afficher les commentaires de l'un d'eux, il charge la pagecommentaires.phpqui affichera le billet sélectionné ainsi que tous ses commentaires. Bien entendu, il faudra envoyer un paramètre à la page commentaires.php pour qu'elle sache quoi afficher… je vous laisse deviner lequel.
+
+Il sera possible de revenir à la liste des billets depuis les commentaires à l'aide d'un lien de retour.
+
+À vous de jouer !
+Je vous en ai assez dit : la réalisation de ce TP devrait être relativement simple pour vous si vous avez bien suivi jusqu'ici.
+
+N'oubliez pas les éléments essentiels de sécurité, notamment la protection de tous les textes parhtmlspecialchars(). Et ne faites jamais confiance à l'utilisateur !
+
+Correction
+Si vous lisez ces lignes, c'est que vous devez être venus à bout de ce TP. Celui-ci ne présentait pas de difficultés particulières mais il constituait l'occasion de vous exercer un peu plus avec MySQL, tout en faisant appel aux fonctions et dates en SQL.
+
+index.php : la liste des derniers billets
+Le TP est constitué de deux pages. Voici la correction que je vous propose pour la pageindex.phpqui liste les derniers billets du blog :
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Mon blog</title>
+    <link href="style.css" rel="stylesheet" /> 
+    </head>
+        
+    <body>
+        <h1>Mon super blog !</h1>
+        <p>Derniers billets du blog :</p>
+ 
+<?php
+// Connexion à la base de données
+try
+{
+    $bdd = new PDO('mysql:host=localhost;dbname=test;charset=utf8', 'root', '');
+}
+catch(Exception $e)
+{
+        die('Erreur : '.$e->getMessage());
+}
+
+// On récupère les 5 derniers billets
+$req = $bdd->query('SELECT id, titre, contenu, DATE_FORMAT(date_creation, \'%d/%m/%Y à %Hh%imin%ss\') AS date_creation_fr FROM billets ORDER BY date_creation DESC LIMIT 0, 5');
+
+while ($donnees = $req->fetch())
+{
+?>
+<div class="news">
+    <h3>
+        <?php echo htmlspecialchars($donnees['titre']); ?>
+        <em>le <?php echo $donnees['date_creation_fr']; ?></em>
+    </h3>
+    
+    <p>
+    <?php
+    // On affiche le contenu du billet
+    echo nl2br(htmlspecialchars($donnees['contenu']));
+    ?>
+    <br />
+    <em><a href="commentaires.php?billet=<?php echo $donnees['id']; ?>">Commentaires</a></em>
+    </p>
+</div>
+<?php
+} // Fin de la boucle des billets
+$req->closeCursor();
+?>
+</body>
+</html>
+Vous constaterez que tous les textes sont protégés parhtmlspecialchars(), y compris les titres. J'utilise par ailleurs une fonction qui doit être nouvelle pour vous :nl2br(). Elle permet de convertir les retours à la ligne en balises HTML<br />. C'est une fonction dont vous aurez sûrement besoin pour conserver facilement les retours à la ligne saisis dans les formulaires.
+
+Côté SQL, cette page n'exécute qu'une seule requête : celle qui récupère les cinq derniers billets.
+
+SELECT id, titre, contenu, DATE_FORMAT(date_creation, '%d/%m/%Y à %Hh%imin%ss') AS date_creation_fr FROM billets ORDER BY date_creation DESC LIMIT 0, 5
+On récupère toutes les données qui nous intéressent dans cette table, en mettant la date en forme au passage. Pour cela, on utilise la fonction scalaireDATE_FORMATqui nous permet d'obtenir une date dans un format français.
+
+Les billets sont ordonnés par date décroissante, le plus récent étant donc en haut de la page.
+
+Enfin, chaque billet est suivi d'un lien vers la pagecommentaires.phpqui transmet le numéro du billet dans l'URL :
+
+<a href="commentaires.php?billet=<?php echo $donnees['id']; ?>">Commentaires</a>
+commentaires.php : affichage d'un billet et de ses commentaires
+Cette page présente des similitudes avec la précédente mais elle est un peu plus complexe. En effet, pour afficher un billet ainsi que ses commentaires, nous avons besoin de faire deux requêtes SQL :
+
+une requête pour récupérer le contenu du billet ;
+
+une requête pour récupérer les commentaires associés au billet.
+
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8" />
+        <title>Mon blog</title>
+    <link href="style.css" rel="stylesheet" /> 
+    </head>
+        
+    <body>
+        <h1>Mon super blog !</h1>
+        <p><a href="index.php">Retour à la liste des billets</a></p>
+ 
+<?php
+// Connexion à la base de données
+try
+{
+    $bdd = new PDO('mysql:host=localhost;dbname=test;charset=utf8', 'root', '');
+}
+catch(Exception $e)
+{
+        die('Erreur : '.$e->getMessage());
+}
+
+// Récupération du billet
+$req = $bdd->prepare('SELECT id, titre, contenu, DATE_FORMAT(date_creation, \'%d/%m/%Y à %Hh%imin%ss\') AS date_creation_fr FROM billets WHERE id = ?');
+$req->execute(array($_GET['billet']));
+$donnees = $req->fetch();
+?>
+
+<div class="news">
+    <h3>
+        <?php echo htmlspecialchars($donnees['titre']); ?>
+        <em>le <?php echo $donnees['date_creation_fr']; ?></em>
+    </h3>
+    
+    <p>
+    <?php
+    echo nl2br(htmlspecialchars($donnees['contenu']));
+    ?>
+    </p>
+</div>
+
+<h2>Commentaires</h2>
+
+<?php
+$req->closeCursor(); // Important : on libère le curseur pour la prochaine requête
+
+// Récupération des commentaires
+$req = $bdd->prepare('SELECT auteur, commentaire, DATE_FORMAT(date_commentaire, \'%d/%m/%Y à %Hh%imin%ss\') AS date_commentaire_fr FROM commentaires WHERE id_billet = ? ORDER BY date_commentaire');
+$req->execute(array($_GET['billet']));
+
+while ($donnees = $req->fetch())
+{
+?>
+<p><strong><?php echo htmlspecialchars($donnees['auteur']); ?></strong> le <?php echo $donnees['date_commentaire_fr']; ?></p>
+<p><?php echo nl2br(htmlspecialchars($donnees['commentaire'])); ?></p>
+<?php
+} // Fin de la boucle des commentaires
+$req->closeCursor();
+?>
+</body>
+</html>
+Ce code est un peu gros mais on peut le découper en deux parties :
+
+affichage du billet ;
+
+affichage des commentaires.
+
+La requête qui récupère le billet ressemble à celle de la page précédente, à la différence près qu'il s'agit d'une requête préparée car elle dépend d'un paramètre : l'id du billet (fourni par$_GET['billet']qu'on a reçu dans l'URL).
+
+Comme on récupère forcément un seul billet, il est inutile de faire une boucle. L'affichage est identique à celui qu'on faisait pour chaque billet sur la page précédente, à l'exception du lien vers la page des commentaires qui ne sert plus à rien (puisque nous sommes sur la page des commentaires).
+
+On pense à libérer le curseur après l'affichage du billet avec :
+
+<?php
+$req->closeCursor();
+?>
+En effet, cela permet de « terminer » le traitement de la requête pour pouvoir traiter la prochaine requête sans problème.
+
+La récupération des commentaires se fait ensuite via la requête suivante :
+
+SELECT auteur, commentaire, DATE_FORMAT(date_commentaire, '%d/%m/%Y à %Hh%imin%ss') AS date_commentaire_fr FROM commentaires WHERE id_billet = ? ORDER BY date_commentaire
+Vous noterez que l'on ne se connecte à la base de données qu'une fois par page. Pas besoin donc de se connecter à nouveau pour effectuer cette seconde requête.
+
+On récupère avec cette requête tous les commentaires liés au billet correspondant à l'id reçu dans l'URL. Les commentaires sont triés par dates croissantes comme c'est habituellement le cas sur les blogs, mais vous pouvez changer cet ordre si vous le désirez, c'est facile.
+
+Aller plus loin
+Ce TP ne concernait que la structure de base d'un blog avec commentaires. Comme il est relativement simple, les possibilités d'extension ne manquent pas. ;-)
+
+Alors, comment pourrait-on améliorer notre blog ? Voici quelques suggestions que je vous conseille d'étudier et qui vous feront progresser.
+
+Un formulaire d'ajout de commentaires
+Sur la pagecommentaires.php, rajoutez un formulaire pour que n'importe quel visiteur puisse poster un commentaire.
+
+Ce formulaire redirigera vers une page qui enregistrera le commentaire puis qui redirigera vers la liste des commentaires, comme on l'avait fait avec le mini-chat. C'est ce que vous pouvez voir sur la figure suivante.
+
+Structure des pages avec ajout de commentaires
+Structure des pages avec ajout de commentaires
+C'est à votre portée ; vous avez déjà réussi à le faire, allez-y !
+
+Utiliser les includes
+Certaines portions de code sont un peu répétitives. Par exemple, on retrouve le même bloc affichant un billet sur la page des billets et sur celle des commentaires.
+
+Il serait peut-être plus simple d'avoir un seul code dans un fichier que l'on inclurait ensuite depuisindex.phpetcommentaires.php.
+
+Vérifier si le billet existe sur la page des commentaires
+Imaginez que le visiteur s'amuse à modifier l'URL de la page des commentaires. Par exemple s'il essaie d'accéder àcommentaires.php?billet=819202et que le billet no 819202 n'existe pas, il n'aura pas de message d'erreur (en fait, le contenu de la page sera vide). Pour que votre site paraisse un peu plus sérieux, vous devriez afficher une erreur.
+
+Pour cela, regardez si la requête qui récupère le contenu du billet renvoie des données. Le plus simple est donc de vérifier après lefetch()si la variable$donneesest vide ou non, grâce à la fonctionempty().
+
+Ainsi, si la variable est vide, vous pourrez afficher un message d'erreur comme « Ce billet n'existe pas ». Sinon, vous afficherez le reste de la page normalement.
+
+Paginer les billets et commentaires
+Quand vous commencerez à avoir beaucoup de billets (et beaucoup de commentaires), vous voudrez peut-être ne pas tout afficher sur la même page. Pour cela, il faut créer un système de pagination.
+
+Supposons que vous souhaitiez afficher uniquement cinq commentaires par page. Si vous voulez afficher des liens vers chacune des pages, il faut savoir combien votre blog comporte de billets.
+
+Par exemple, si vous avez 5 billets, il n'y aura qu'une seule page. Si vous avez 12 billets, il y aura trois pages. Pour connaître le nombre de billets, une requête SQL avecCOUNT(*)est indispensable :
+
+SELECT COUNT(*) AS nb_billets FROM billets
+Une fois ce nombre de billets récupéré, vous pouvez trouver le nombre de pages et créer des liens vers chacune d'elles :
+
+Page : 1 2 3 4
+
+Chacun de ces nombres amènera vers la même page et ajoutera dans l'URL le numéro de la page :
+
+<a href="index.php?page=2">2</a>
+À l'aide du paramètre$_GET['page']vous pourrez déterminer quelle page vous devez afficher. À vous d'adapter la requête SQL pour commencer uniquement à partir du billet no $x$. Par exemple, si vous demandez à afficher la page 2, vous voudrez afficher uniquement les billets nos 4 à 8 (n'oubliez pas qu'on commence à compter à partir de 0 !). Revoyez la section surLIMITau besoin.
+
+Et si aucun numéro de page n'est défini dans l'URL, lorsqu'on arrive la première fois sur le blog ?
+
+Dans ce cas, si$_GET['page']n'est pas défini, vous devrez considérer que le visiteur veut afficher la page 1 (la plus récente).
+
+Ça demande un peu de réflexion mais le jeu en vaut la chandelle ! N'hésitez pas à demander de l'aide sur les forums si nécessaire.
+
+Réaliser une interface d'administration du blog
+C'est probablement l'amélioration la plus longue. Il faudra créer des pages qui permettent de modifier, supprimer et ajouter de nouveaux billets.
+
+Un problème cependant : comment protéger l'accès à ces pages ? En effet, vous devriez être seuls à avoir accès à votre interface d'administration, sinon n'importe qui pourra ajouter des billets s'il connaît l'URL de la page d'administration !
+
+Plusieurs techniques existent pour protéger l'accès à l'administration. Le plus simple dans ce cas est de créer un sous-dossieradminqui contiendra tous les fichiers d'administration du blog (ajouter.php,modifier.php,supprimer.php…). Ce dossieradminsera entièrement protégé à l'aide des fichiers.htaccesset.htpasswd, ce qui fait que personne ne pourra charger les pages qu'il contient à moins de connaître le login et le mot de passe (figure suivante).
+
+Structure des pages avec admin
+Structure des pages avec admin
+Pour en savoir plus sur la protection d'un dossier avec ces fichiers.htaccesset.htpasswd, je vous invite à consulter l'annexe du cours correspondant.
+
+Allez, au boulot ! ;-)

@@ -4,3 +4,147 @@
 
 
 
+elles peuvent être classées en 2 catégories :
+- fonctions scalaires (a un effet sur chaq entrée)
+- fonctions d'agrégat (calculs pr retourner une valeur)
+
+
+**Les Fonctions scalaires**
+
+la fonction UPPER 
+
+*Utiliser une fonction scalaire SQL*
+
+nom des f° (=fonctions) en MAJUSCULES
+
+UPPER() => change la case d'un champs en majuscules
+
+pour avoir ts les noms des jeux en maj :
+SELECT UPPER(nom) FROM jeux_video
+
+ça ne modifie pas le contenu de la table! ça crée un "champ virtuel" qui n'existe que durant la req
+
+!! il vaut mieux donner un nom à ce "champ virtuel" !! => avec le mot-clé "AS" :
+
+SELECT UPPER(nom) AS nom_maj FROM jeux_video
+
+AS => ALIAS
+
+
+on peut même en utilisant UPPER() récupérer les autres champs de la table:
+SELECT UPPER(nom) AS nom_maj, possesseur, console, prix FROM jeux_video
+=> ici seul le champ "nom" sera en maj
+
+Autres fonctions scalaires utiles :
+
+	LOWER => convertir en minuscules
+
+	LENGHT => compter le nbre de caractères
+
+	ROUND => arrondir un nbre décimal (prend 2 paramètres : 
+	le nom du champs concerné + le nbre de chiffre après la virgule qu'on veut avoir)
+	SELECT ROUND(prix, 2) AS prix_arrondi FROM jeux_video
+
+!! Site pr d'autres f° pr les chaines de caractères : 
+https://dev.mysql.com/doc/refman/5.0/en/string-functions.html
+
+
+
+
+
+**Les Fonctions d'agrégat**
+
+*Utiliser une fonction d'agrégat SQL*
+
+Elles agissent sur pls entrées pour ne retourner qu'une valeur (comme ROUND)
+
+la fonction AVG => renvoie la moyenne de pls prix
+
+SELECT AVG(prix) AS prix_moyen FROM jeux_video
+
+!! Pour afficher la valeur ici on n'est pas obligé d'utiliser WHILE puisqu'il y a qu'une seule valeur :
+
+<?php
+$reponse = $bdd->query('SELECT AVG(prix) AS prix_moyen FROM jeux_video');
+
+$donnees = $reponse->fetch();
+echo $donnees['prix_moyen'];
+
+$reponse->closeCursor();
+
+?>
+
+
+* N'hésitez pas à filtrer !*
+
+Pr avoir le prix moyen des jeux n'appartenant qu'à Patrick :
+
+SELECT AVG(prix) AS prix_moyen FROM jeux_video WHERE possesseur='Patrick'
+
+
+
+*Ne pas mélanger une fonction d'agrégat avec d'autres champs*
+
+!! Ne pas demander plusieurs champs de la table avec une fonction d'agrégat, elle ne gère qu'un champ!!
+
+Fonctions d'agrégat utiles :
+
+	AVG => Calculer la moyenne
+
+	SUM => Additionner les valeurs
+
+	MAX => Retourner la valeur maximale
+
+	MIN => Retourner la valeur minimale
+
+	COUNT => Compter le nbre d'entrées (on l'utilise souvent ainsi :
+	SELECT COUNT(*) AS nbjeux FROM jeux_video       elle donne alors le nbre de jeux dans la table
+	on peut la filtrer avec WHERE :
+	SELECT COUNT(*) AS nbjeux FROM jeux_video WHERE possesseur='Florent'
+
+	COUNT+DISTINCT => par ex pr savoir le nbre de pers différentes dans la table:
+	SELECT COUNT(DISTINCT possesseur) AS nbpossesseurs FROM jeux_video
+
+
+
+**GROUP BY et HAVING : le groupement de données**
+
+*GROUP BY : grouper des données*
+
+GROUP BY => par ex pr avoir le prix moyen des jeux pour chaq console :
+
+mot clé GROUP BY = veut dire "grouper par" => s'utiliser en même tant qu'une f° d'agrégat (comme AVG) :
+
+SELECT AVG(prix) AS prix_moyen, console FROM jeux_video GROUP BY console
+
+!!mettre un while!!
+
+!!il faut utliser GROUP BY avec une fonction d'agrégat, sinon il ne sert à rien !!
+
+
+
+*HAVING : filtrer les données regroupées*
+
+un peu équivalent de WHERE, mais agit sur les données qu'une fois qu'elles sont regroupées
+
+cette req récupère la liste des consoles et leurs prix moyen SI ce prix ne dépasse pas 10€ :
+
+SELECT AVG(prix) AS prix_moyen, console FROM jeux_video GROUP BY console HAVING prix_moyen <= 10
+
+
+!! HAVING ne doit être utiliser que sur le résultat d'une f° d'agrégat !! Voilà prquoi ici on la utiliser
+sur prix et non sur console.
+
+
+
+WHERE et HAVING permettent de filtrer, mais pas au même moment ! 
+D'ailleurs on peut les combiner !! :
+
+SELECT AVG(prix) AS prix_moyen, console FROM jeux_video 
+WHERE possesseur='Patrick' GROUP BY console HAVING prix_moyen <= 10
+
+
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+

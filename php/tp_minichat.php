@@ -101,6 +101,7 @@ catch (Exception $e)
 			?>
 			    <p class="apparence_msg">
 			    <span class="pseudos"><?php echo strip_tags($donnees['pseudo']) ?></span> <br> <span class="messages"><?php echo strip_tags($donnees['message']) ;?></span>
+			    <p class="date_minichat"><?php echo $donnees['date'] ?></p>
 			   </p>
 			<?php
 			}

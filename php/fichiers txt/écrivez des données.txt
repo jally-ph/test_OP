@@ -161,6 +161,12 @@ ex: « You have an error in your SQL syntax near 'XXX' »
 
 
 
+
+
+
+
+n12br => sert à garder les retours à la ligne saisies dans les formulaires.
+
 :::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
 
 

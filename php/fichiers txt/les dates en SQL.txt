@@ -1,0 +1,143 @@
+10/02/2019
+
+			LES DATES EN SQL
+
+
+
+**Les champs de type date**
+
+!! ON PEUT AJOUTER ET SUPPRIMER DES COLONNES DANS LES TABLES Alleluia!!
+
+*Les différents types de dates*
+
+	DATE => format AAAA-MM-JJ
+
+	TIME => format HH:MM:SS
+
+	DATETIME => format AAAA-MM-JJ HH:MM:SS
+
+	TIMESTAMPS => le nbre de secondes passées depuis le 1er Janvier 1970 à 00h00min00s
+
+	YEAR => soit AA, soit AAAA
+
+
+°°°Créez un champ nommé date de type DATETIME, en le mettant en CURRENT_TIMESTAMP.
+
+!! Vaut mieux ne pas donner comme nom au champ "date", cela peut prêter à confusion avec 
+le mot-clé DATE dans d'autres systèmes de base de données !!
+
+
+
+*Utilisation des champs de date en SQL*
+
+les champs de type date sont comme des chaines de caractères : à mettre entre apostrophes
+
+écrire date dans le format du champ :
+
+SELECT pseudo, message, date FROM minichat WHERE date = '2010-04-02'
+
+=> ça renvoie les msg postés le 02/04/2010
+
+
+SELECT pseudo, message, date FROM minichat WHERE date = '2010-04-02 15:28:22'
+
+!! On peut utiliser : >= <= et pas seulement =
+
+pour les messages après une date : >=
+SELECT pseudo, message, date FROM minichat WHERE date >= '2010-04-02 15:28:22'
+
+pr msg entre 2 dates : >= et <=
+SELECT pseudo, message, date FROM minichat 
+WHERE date >= '2010-04-02 00:00:00' AND date <= '2010-04-18 00:00:00'
+	
+	on peut aussi l'écrire avec le mot-clé BETWEEN : 
+SELECT pseudo, message, date FROM minichat WHERE date 
+BETWEEN '2010-04-02 00:00:00' AND '2010-04-18 00:00:00'
+
+
+pr insérer une entrée avec une date, il suffit de respecter le format de la bdd :
+
+INSERT INTO minichat(pseudo, message, date) VALUES('Mateo', 'Message !', '2010-04-02 16:32:22')
+
+
+
+
+
+**Les Fonctions de gestion de dates**
+
+
+site où sont les f° agissant sur les dates : 
+https://dev.mysql.com/doc/refman/5.7/en/date-and-time-functions.html
+
+F° utiles :
+
+	NOW() => obtenir la date et l'heure actuelles
+
+qd on veut mettre un message manuellement dans la bdd et qd on ne sait pas la date exacte :
+INSERT INTO minichat(pseudo, message, date) VALUES('Mateo', 'Message !', NOW())
+=> format AAAA-MM-JJ HH:MM:SS
+
+	CURDATE() => format AAAA-MM-JJ
+
+	CURTIME() => format HH:MM:SS
+
+	DAY(), MONTH(), YEAR() : extraire le jour, le mois ou l'année
+	ex : SELECT pseudo, message, DAY(date) AS jour FROM minichat
+
+	HOUR(), MINUTE(), SECOND() : extraire les heures, minutes, secondes
+	ex : SELECT pseudo, message, HOUR(date) AS heure FROM minichat
+
+	DATE_FORMAT : formater une date => adapter directment la date dans le format qu'on veut
+
+
+
+On pourrait écrire :
+
+SELECT pseudo, message, DAY(date) AS jour, MONTH(date) AS mois, 
+YEAR(date) AS annee, HOUR(date) AS heure, MINUTE(date) AS minute, 
+SECOND(date) AS seconde FROM minichat
+
+<?php
+echo $donnees['jour'] . '/' . $donnees['mois'] . '/' . $donnees['annee'] . '...';
+?>
+
+
+Mais on peut faire + simple avec DATE_FORMAT :
+
+SELECT pseudo, message, 
+DATE_FORMAT(date, '%d/%m/%Y %Hh%imin%ss') AS date FROM minichat
+
+=> les symboles %d; %m, %Y etc st remplacés par le jour, le mois, l'année, etc
+et les autres symboles s'affichent tels quels : /
+
+Link pr savoir les symboles possibles dans doc_format : https://dev.mysql.com/doc/refman/5.7/en/date-and-time-functions.html#function_date-format
+
+
+
+*DATE_ADD et DATE_SUB : ajouter ou soustraire des dates*
+
+Pour ce faire, 2 paramètres nécessaires :
+ - la date sur laquelle travailler
+ - le nbre à ajouter à cette date et son type (day, month...)
+
+
+par ex, ajouter une date d'expiration au message :
+SELECT pseudo, message, DATE_ADD(date, INTERVAL 15 DAY) AS date_expiration FROM minichat
+
+=> date où le msg a été posté + 15j avant expiration
+=> mot-clé INTERVAL ne doit pas être enlevé !
+=> on peut remplacer DAY par MONTH, YEAR, HOUR, MINUTE, SECOND !!
+
+
+Pr msg qui expire dans 2 mois :
+SELECT pseudo, message, DATE_ADD(date, INTERVAL 2 MONTH) AS date_expiration FROM minichat
+
+
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
+
+
+
