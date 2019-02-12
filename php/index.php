@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Lire des données</title>
+	<title>Exercices PHP</title>
 	<meta charset="utf-8">
 	<!-- Viewport -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
@@ -26,7 +26,7 @@
 
 	<p><a href="tp_blog.php" class="links_php">TP Blog</a></p>
 
-	<p><a href="commentaires.php" class="links_php">TP Blog commentaires</a></p>
+	<p><a href="jointures_entre_tables.php" class="links_php">Les Jointures entre tables</a></p>
 
 	
 </body>

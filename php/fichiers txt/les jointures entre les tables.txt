@@ -1,0 +1,147 @@
+12/02/2019
+
+			LES JOINTURES ENTRE TABLES
+
+
+
+interconnecter les tables entre elles pr éviter les répétitions
+
+
+**Modélisation d'une relation**
+
+ex : pr stocker les nom, prénom, numéro de tél de chaq possesseur de jeux vidéo et éviter
+les répétitions
+
+créer une table avec les infos sur chq propriétaire
+modifier la structure de la table jeux_video pour qu'elle soit liée à "proprietaires" avec 
+un champ "ID_proprietaire"
+
+mysql ne comprend pas qu'il faut faire un lien entre les deux tables, il faut lui expliquer
+
+
+
+**Qu'est-ce qu'une jointure ?**
+
+	jointures internes 	=> ne prennent que les données qui ont une correspondance entre
+				les deux tables
+
+	jointures externes 	=> prennent toutes les données sans faire attention aux correspondances
+
+
+
+**Les jointures internes**
+
+peut se faire de 2 façons :
+
+	avec le mot-clé WHERE : ancienne syntaxe mais tjours utilisé, on devrait l'éviter
+
+	avec le mot-clé JOIN : nouvelle syntaxe, recommandé
+
+
+!! les 2 produisent le même résultat !!
+
+
+*Jointure interne avec WHERE*
+
+sélectionner des champs des 2 tables et indiquer le nom des 2 tables dans FROM :
+SELECT nom, prenom FROM proprietaires, jeux_video
+
+!! mais ce n'est pas suffisant => c'est une colonne ambiguë, car mysql est perdu
+
+!! IL FAUT MARQUER LE NOM DE LA TABLE DEVANT LE CHAMP :
+SELECT jeux_video.nom, proprietaires.prenom FROM proprietaires, jeux_video
+
+Il reste à lier les tables entre elles dans WHERE :
+
+SELECT jeux_video.nom, proprietaires.prenom
+FROM proprietaires, jeux_video
+WHERE jeux_video.ID_proprietaire = proprietaires.ID
+
+
+Utilisez les alias ! => pr créer des champs virtuels, recommandé fortement lors de jointures:
+
+SELECT jeux_video.nom AS nom_jeu, proprietaires.prenom AS prenom_proprietaire
+FROM proprietaires, jeux_video
+WHERE jeux_video.ID_proprietaire = proprietaires.ID
+
+on peut donner aussi un alias au nom des tables = recommandé ! => faut que ce soit + facile
+à écrire; en général ces alias-là n'ont qu'une lettre : 
+
+SELECT j.nom AS nom_jeu, p.prenom AS prenom_proprietaire
+FROM proprietaires AS p, jeux_video AS j
+WHERE j.ID_proprietaire = p.ID
+
+!! le mot clé AS (alias) est facultatif, on peut écrire :
+
+SELECT j.nom nom_jeu, p.prenom prenom_proprietaire
+FROM proprietaires p, jeux_video j
+WHERE j.ID_proprietaire = p.ID
+
+
+
+*Jointure interne avec JOIN*
+
+pr éviter de confondre le WHERE traditionnel qui filtre les infos et le WHERE de jointure
+
+la même req plus haut, on l'écrirait :
+
+SELECT j.nom nom_jeu, p.prenom prenom_proprietaire
+FROM proprietaires p
+INNER JOIN jeux_video j
+ON j.ID_proprietaire = p.ID
+
+
+INNER JOIN => jointure interne
+
+ON => la liaison entre les champs
+
+
+!! si on veut filtrer, on peut utiliser : WHERE , ranger avec ORBER BY, ou limiter LIMIT
+à mettre après le ON !! :
+
+SELECT j.nom nom_jeu, p.prenom prenom_proprietaire
+FROM proprietaires p
+INNER JOIN jeux_video j
+ON j.ID_proprietaire = p.ID
+WHERE j.console = 'PC'
+ORDER BY prix DESC
+LIMIT 0, 10
+
+
+
+
+**Les jointures externes**
+
+récupérer toutes les données avec JOIN :
+
+	LEFT JOIN	RIGHT JOIN
+
+
+*LEFT JOIN : récupérer toute la table de gauche*
+
+SELECT j.nom nom_jeu, p.prenom prenom_proprietaire
+FROM proprietaires p
+LEFT JOIN jeux_video j
+ON j.ID_proprietaire = p.ID
+
+=> "proprietaires" est la table de gauche et "jeux_video" la table de droite 
+LEFT JOIN récupère tous les proprios même s'ils n'ont pas d'équivalence dans jeux_vid !!
+
+
+
+*RIGHT JOIN : récupérer toute la table de droitre*
+
+SELECT j.nom nom_jeu, p.prenom prenom_proprietaire
+FROM proprietaires p
+RIGHT JOIN jeux_video j
+ON j.ID_proprietaire = p.ID
+
+=> table de droite : jeux_vid !!
+
+
+
+
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
