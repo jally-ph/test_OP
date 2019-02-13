@@ -1,0 +1,404 @@
+12/02/2019
+
+
+		CREER DES IMAGES EN PHP
+
+
+PHP peut créer des images !! grâce à des extensions, en lui rajoutant certains fichiers :
+des DLL sous Windows
+images ET PDF !!
+
+extension spécialisé dans la création d'images : la Bibliothèque GD
+
+
+**Activer la bibliothèque GD**
+
+pr l'activer (comme activation PDO) :
+clique gauche sur icône WAMP dans barre des tâches + menu PHP / extensions PHP
+cocher  :  php_gd2
+
+
+
+**Les bases de la création d'image**
+
+*Le header*
+
+2 façon de générer une img en php :
+
+	- soit php renvoie une img et non une page web
+
+	- soit php enregistre l'img dans un fichier
+
+pour que le navigateur sache que c'est une img et non une page web à afficher => header
+
+header = un en-tête
+fonction header => on dit au navigateur qu'on est en train de lui envoyer une img
+
+le code pr dire au navigateur qu'on lui envoie une img PNG :
+
+<?php
+header ("Content-type: image/png");
+?>
+
+!! img JPEG, même que PNG, on remplace juste png par jpeg !!
+
+!! fonction header => comme SETCOOKIE, doit être utilisé AVANT DU CODE HTML !!
+
+
+*Créer l'image de base*
+
+A PARTIR D'UNE IMAGE VIDE
+
+On crée une img vide => avec fonction "imagecreate"
+
+imagecreate = 2 paramètres : la largeur, la hauteur de l'img qu'on veut créée
+elle renvoie une info qu'on doit mettre dans une variable$
+
+par ex :
+
+<?php
+header ("Content-type: image/png");
+$image = imagecreate(200,50);
+?>
+
+
+$image => est une RESSOURCE : une $ qui a ttes les infos sur un objet
+
+
+
+A PARTIR D'UNE IMAGE EXISTANTE
+
+2 fonctions qui dépendent du format choisi :
+
+pour une img en JPEG : fonction "imagecreatefromjpeg"	
+	           PNG : fonction "imagecreatefrompng"
+
+
+<?php
+header ("Content-type: image/jpeg");
+$image = imagecreatefromjpeg("couchersoleil.jpg");
+?>
+
+
+
+*Quand on a terminé : on affiche l'image*
+
+pour afficher l'img, ça dépend du format choisi :
+
+JPEG => imagejpeg
+PNG => imagepng
++ On indique quelle img afficher
+
+soit on affiche directement après avoir créer l'img, soit on l'enregistre pr plus tard
+
+
+
+*Afficher directement l'image*
+
+code complet :
+
+<?php
+header ("Content-type: image/png"); // 1 : on indique qu'on va envoyer une image PNG
+$image = imagecreate(200,50); // 2 : on crée une nouvelle image de taille 200 x 50
+// 3 : on s'amuse avec notre image (on va apprendre à le faire)
+imagepng($image); // 4 : on a fini de faire joujou, on demande à afficher l'image
+?>
+
+
+!! On demande à ce que la page php soit afficher comme une img !! 
+
+Donc, si la page PHP s'appelle « image.php », 
+vous mettrez ce code HTML pour l'afficher depuis une autre page :
+
+<img src="image.php" />
+
+
+
+*Enregistrer l'image sur le disque*
+
+il faut ajouter un paramètre à la fonction "imagepng" :
+ le nom de l'image et peut-être là où il se trouve dans les dossiers
+
+dans ce cas, php ne va pas renvoyer d'img, il va seulement l'enregistrer sur le disque,
+=> on peut supprimer "header" (elle sert à rien)
+
+donc :
+
+<?php
+$image = imagecreate(200,50);
+// on fait joujou avec notre image
+imagepng($image, "images/monimage.png"); // on enregistre l'image dans le dossier "images"
+?>
+
+pr l'afficher sur une autre page web, on écrit :
+
+<img src="images/monimage.png" />
+
+avantage de cette technique => le serveur aura moins de taff
+défaut de cette technique => une fois l'img enregistrée elle ne change plus
+
+
+
+**Texte et couleur**
+
+*Manipuler les couleurs*
+
+nbre max pr les couleurs : 255 
+plus on réduit, moins il y a de la couleur en question
+
+ordre = RVB Rouge, Vert, Bleu
+
+noir : (0	0    0)
+blanc: (255, 255, 255)
+
+
+pr définir couleur en php => f° "imagecolorallocate"
++ 4 paramètres :
+
+	- l'img sur laquelle on travaille
+	- la quantité de rouge
+	- de vert
+	- de bleu
+
+cette f° renvoie la couleur dans une $
+
+on va créer des "variables-couleur" => utiles pr indiquer la couleur
+
+par ex :
+
+<?php
+header ("Content-type: image/png");
+$image = imagecreate(200,50);
+
+$orange = imagecolorallocate($image, 255, 128, 0);
+$bleu = imagecolorallocate($image, 0, 0, 255);
+$bleuclair = imagecolorallocate($image, 156, 227, 254);
+$noir = imagecolorallocate($image, 0, 0, 0);
+$blanc = imagecolorallocate($image, 255, 255, 255);
+
+imagepng($image);
+?>
+
+
+!! dès la 1ere fois qu'on appelle la f° IMAGECOLORALLOCATE => cette couleur devient le fond
+de notre img !!
+
+!! ça fonctionnait pas car la balise php n'était pas à la 1ere ligne dans le code !!
+
+
+
+*Ecrire du texte*
+
+avec f° "imagestring" et ses nbreux paramètres :
+
+<?php
+imagestring($image, $police, $x, $y, $texte_a_ecrire, $couleur);
+?>
+
+	la f° "imagestringup" => écrit le texte verticalement !!
+
+$image => $ qui contient l'image
+
+$police => nbre de 1 à 5, 1=petit, 5=grand ! et/ou police de caractère perso
+
+$x et $y => coordonnées pr placer le texte sur img 
+
+$texte_a_ecrire => voilà quoi !
+
+$couleur => couleur crée avec imagecolorallocate
+
+
+par ex:
+
+<?php
+header ("Content-type: image/png");
+$image = imagecreate(200,50);
+
+$orange = imagecolorallocate($image, 255, 128, 0);
+$bleu = imagecolorallocate($image, 0, 0, 255);
+$bleuclair = imagecolorallocate($image, 156, 227, 254);
+$noir = imagecolorallocate($image, 0, 0, 0);
+$blanc = imagecolorallocate($image, 255, 255, 255);
+
+imagestring($image, 4, 35, 15, "Salut les Zéros !", $blanc);
+
+imagepng($image);
+?>
+
+=>  Mets dans l'image$image, avec la police de taille 4, 
+aux coordonnées (35, 15), le texte « Salut les Zéros ! », de couleur blanche.
+
+
+
+
+**Dessiner une forme**
+
+avec ces fonctions :
+
+- ImageSetPixel => sert à dessiner un pixel aux coordonnées (x,y)
+
+ImageSetPixel ($image, $x, $y, $couleur);
+
+
+- ImageLine => sert à dessiner une ligne entre deux pts de coordonnées
+
+ImageLine ($image, $x1, $y1, $x2, $y2, $couleur);
+
+
+- ImageEllipse => sert à dessiner une ellipse dont le centre est aux coord + $largeur +hauteur
+
+ImageEllipse ($image, $x, $y, $largeur, $hauteur, $couleur);
+
+
+- ImageRectangle => sert à dessiner un rectangle
+ImageRectangle ($image, $x1, $y1, $x2, $y2, $couleur);
+
+ex: ImageRectangle ($image, 30, 30, 160, 120, $noir);
+
+
+- ImagePolygon => dessine un polygone
+
+ImagePolygon ($image, $array_points, $nombre_de_points, $couleur);
+
+
+
+
+
+**Des fonctions encore plus puissantes**
+
+*Rendre une image transparente*
+
+!! seul PNG peut devenir transparent !!
+
+avec f° "imagecolortransparent" + indiquer quelle couleur on veut rendre transparente:
+
+<?php
+imagecolortransparent($image, $couleur);
+?>
+                      ::: 
+<?php
+header ("Content-type: image/png");
+$image = imagecreate(200,50);
+
+$orange = imagecolorallocate($image, 255, 128, 0); // Le fond est orange (car c'est la première couleur)
+$bleu = imagecolorallocate($image, 0, 0, 255);
+$bleuclair = imagecolorallocate($image, 156, 227, 254);
+$noir = imagecolorallocate($image, 0, 0, 0);
+$blanc = imagecolorallocate($image, 255, 255, 255);
+
+imagestring($image, 4, 35, 15, "Salut les Zéros !", $noir);
+imagecolortransparent($image, $orange); // On rend le fond orange transparent
+
+imagepng($image);
+?>
+
+
+
+*Mélanger deux images*
+
+faire fusionner 2 img en jouant sur la transparence
+ex : afficher un logo
+
+pour ce faire => f° "imagecopymerge"
+
+
+le code se présente ainsi :
+
+<?php
+header ("Content-type: image/jpeg"); // L'image que l'on va créer est un jpeg
+
+// On charge d'abord les images
+$source = imagecreatefrompng("logo.png"); // Le logo est la source
+$destination = imagecreatefromjpeg("couchersoleil.jpg"); // La photo est la destination
+
+// Les fonctions imagesx et imagesy renvoient la largeur et la hauteur d'une image
+$largeur_source = imagesx($source);
+$hauteur_source = imagesy($source);
+$largeur_destination = imagesx($destination);
+$hauteur_destination = imagesy($destination);
+
+// On veut placer le logo en bas à droite, on calcule les coordonnées où on doit placer le logo sur la photo
+$destination_x = $largeur_destination - $largeur_source;
+$destination_y =  $hauteur_destination - $hauteur_source;
+
+// On met le logo (source) dans l'image de destination (la photo)
+imagecopymerge($destination, $source, $destination_x, $destination_y, 0, 0, $largeur_source, $hauteur_source, 60);
+
+// On affiche l'image de destination qui a été fusionnée avec le logo
+imagejpeg($destination);
+?>
+
+
+
+
+Les paramètres à donner à la fonction sont, dans l'ordre, les suivants :
+
+L'image de destination : ici$destination, la photo. C'est l'image qui va être modifiée et dans laquelle on va mettre notre logo.
+
+L'image source : ici$source, c'est notre logo. Cette image n'est pas modifiée.
+
+L'abscisse à laquelle vous désirez placer le logo sur la photo : il s'agit ici de l'abscisse du point située à la position$largeur_de_la_photo - $largeur_du_logo.
+
+L'ordonnée à laquelle vous désirez placer le logo sur la photo : de même, il s'agit de l'ordonnée du point sur la photo (ici,$hauteur_de_la_photo - $hauteur_du_logo).
+
+L'abscisse de la source : en fait, la fonctionimagecopymergepermet aussi de ne prendre qu'une partie de l'image source. Ça peut devenir un peu compliqué, alors nous, on va dire qu'on prend tout le logo. On part donc du point situé aux coordonnées (0, 0) de la source. Mettez donc 0 pour l'abscisse.
+
+L'ordonnée de la source : de même pour l'ordonnée. Mettez 0.
+
+La largeur de la source : c'est la largeur qui détermine quelle partie de l'image source vous allez prendre. Nous on prend toute l'image source, ne vous prenez donc pas la tête non plus et mettez$largeur_source.
+
+La hauteur de la source : de même, mettez$hauteur_source.
+
+Le pourcentage de transparence : c'est un nombre entre 0 et 100 qui indique la transparence de votre logo sur la photo. Si vous mettez 0, le logo sera invisible (totalement transparent), et si vous mettez 100, il sera totalement opaque (il n'y aura pas d'effet de « fusion »). Mettez un nombre autour de 60-70, en général c'est bien. ;-)
+
+
+
+
+
+
+*Redimensionner une image*
+
+créer des miniatures des img + faire une galerie photo; si on clique dessus, taille originale
+
+pour ce faire : f° "imagecopyresampled"
+f° qui donne bcoup de taff au processeur pr la qualité => puissant mais lent!
+
+ici on va créer la miniature puis l'enregistrer une fois pr toute !
+
+header => ici ne sert à rien !
+
+on a besoin de 2 img : la source et la destination
+source => img original
+destination => img miniature qu'on va créer
+
+créer une img vide => mais avec "imagecreatetruecolor" (contient + de couleurs)
+
+
+<?php
+$source = imagecreatefromjpeg("couchersoleil.jpg"); // La photo est la source
+$destination = imagecreatetruecolor(200, 150); // On crée la miniature vide
+
+// Les fonctions imagesx et imagesy renvoient la largeur et la hauteur d'une image
+$largeur_source = imagesx($source);
+$hauteur_source = imagesy($source);
+$largeur_destination = imagesx($destination);
+$hauteur_destination = imagesy($destination);
+
+// On crée la miniature
+imagecopyresampled($destination, $source, 0, 0, 0, 0, $largeur_destination, $hauteur_destination, $largeur_source, $hauteur_source);
+
+// On enregistre la miniature sous le nom "mini_couchersoleil.jpg"
+imagejpeg($destination, "mini_couchersoleil.jpg");
+?>
+
+
+
+
+
+
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+
+
+

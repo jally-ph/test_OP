@@ -1,0 +1,13 @@
+14/02/2019
+
+
+		LES EXPRESSIONS REGULIERES 1/2
+
+
+express rég => systeme puissant pr faire des recherches dans des chaines de caractères
+fonctionnalité Rechercher / Remplacer très poussée
+
+
+**Où utiliser une regex ?**
+
+

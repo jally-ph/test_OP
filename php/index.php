@@ -28,6 +28,8 @@
 
 	<p><a href="jointures_entre_tables.php" class="links_php">Les Jointures entre tables</a></p>
 
+	<p><a href="creer_images.php" class="links_php">Créer des images en PHP</a><img src="creer_images.php" /></p>
+
 	
 </body>
 </html>
