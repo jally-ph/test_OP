@@ -10,4 +10,223 @@ fonctionnalité Rechercher / Remplacer très poussée
 
 **Où utiliser une regex ?**
 
+*POSIX ou PCRE ?*
+
+2 types d'exp reg : 
+
+	POSIX => langage d'exp reg mis en avant par php, + simple que PCRE, mais + lent
+
+	PCRE => exp reg issu du langage Perl, + complexe, + efficace + rapide
+
+on a le choix, vaut mieux PCRE
+
+
+*Les fonctions qui nous intéressent*
+
+Les f° utilisant la lang PCRE commencent par preg_ :
+preg_grep, preg_split, preg_quote, preg_match, preg_match_all, preg_replace, preg_replace_callback
+
+
+*preg_match*
+
+=> f° qui renvoie un booléen : renvoie true si a trouvé mot demandé, sinon false
+
+2 infos à donner :
+	- votre regex => ça veut dire "expression régulière" (REGEX=EXP REG)
+	- la chaîne où on cherche
+
+<?php
+if (preg_match("** Votre REGEX **", "Ce dans quoi vous faites la recherche"))
+{
+	echo 'Le mot que vous cherchez se trouve dans la chaîne';
+}
+else
+{
+	echo 'Le mot que vous cherchez ne se trouve pas dans la chaîne';
+}
+?>
+
+A la place de "votre regex" écrire qqch en lang PCRE, comme :
+
+#(((https?|ftp)://(w{3}\.)?)(?<!www)(\w+-?)*\.([a-z]{2,4}))#
+
+
+
+**Des recherches simples**
+
+une regex est tjours entourée de caractères spéciaux, des DELIMITEURS : 
+on peut choisir n'importe quel caractère spécial comme délimiteur
+comme par ex : #
+
+#Ma regex#
+
+les opt° se placent après le second # => #Ma regex#Options
+
+à la place de "ma regex" écrire le mot qu'on cherche
+
+le mot guitare est-il utilisé ? :
+<?php
+if (preg_match("#guitare#", "J'aime jouer de la guitare."))
+{
+    echo 'VRAI';
+}
+else
+{
+    echo 'FAUX';
+}
+?>
+
+
+
+*Et tu casses, tu casses, tu casses...*
+
+les regex prennent en compte majuscule et minuscule !! Sensibles à la casse !!
+Il suffit d'écrire #Guitare# et le résultat retourné est FAUX !
+
+Pour que nos regex ne soient pas sensibles à la casse => utiliser option : " i "
+#Guitare#i  => vrai
+
+
+
+*Le symbole OU*
+
+barre verticale : | = OU
+
+| => laisse pls possibilités à la regex
+
+#guitare|piano#   => veut qu'on cherche soit guitare, soit piano : 
+si un des deux est trouvé = VRAI
+
+#guitare|piano|banjo#
+
+
+
+*Début et fin de chaîne*
+
+si on veut trouver une phrase qui commence ou se termine par un certain mot :
+2 symboles : 
+	^  => accent circonflexe, début de chaine
+	$  => dollar, fin de chaine
+
+
+#^Bonjour#	=> la phrase commence avec Bonjour : si oui, true
+
+#zéro$# 		
+
+Bonjour petit zéro !!!   ==      #zéro$#      ==    FAUX
+ça renvoie faux, car la phrase se termine par !!!
+
+
+
+**Les Classes de caractères**
+
+permet d'affiner la recherche, précis
+
+*Des classes simples*
+
+#gr[io]s#
+
+entre crochet => classe de caractères : signifie qu'une des lettres dedans peut convenir
+
+donc ici regex connaît 2 mots : gris et gros
+
+#gr[ioa]s#   => i ou o ou a
+
+
+
+*Les intervalles de classe*
+
+autoriser toute une plage de caractère => avec tiret ( - )
+
+[abcdefghijklmnopqrstuvwxyz] = [a-z]
+
+si on veut s'arrêter à la lettre e : [a-e]
+
+chiffres : [0-9] / [1-8]
+
+on peut écrire 2 plages en même temps dans une classe : [a-z0-9]
+
+[a-zA-Z0-9] minuscules et maj, on peut aussi mettre i
+
+
+
+*Et pour dire que je n'en veux pas ?*
+
+symbole :   ^   en début de classe, entre les crochets !!
+
+#[^0-9]# 	  
+=> on ne veut pas de chiffre dans la chaine
+
+
+
+
+**Les Quantificateurs**
+
+symboles qui permettent de dire combien de fois peuvent se répéter un ou des caractères
+
+*Les symboles les plus courants*
+
+3 symb importants :
+
+	? => la lettre est facultative (ne peut apparaître qu'une fois max)
+
+	+ => la lettre est obligatoire (doit apparaître au moins 1 fois)
+
+	* => la lettre est facultative (peut être pls fois)
+
+ces symb s'appliquent à la lettre placée juste devant !! 
+
+
+#chiens?# 
+=> on autorise le mot chien au sing, comme au pluriel (le "s" est facultatif)
+
+#bor?is#
+= reconnaître boris et bois
+
+
+pour que 2 lettres ou plus se répètent => utiliser parenthèses
+
+Ayayayayayay  =  #Ay(ay)*#
+Ce code reconnaîtra « Ay », « Ayay », « Ayayay », « Ayayayay »
+
+on peut utiliser aussi : | dans les parenthèses
+#Ay(ay|oy)*#
+=> « Ayayayoyayayayoyoyoyoyayoy » ! C'est le « ay » OU le « oy » répété plusieurs fois !
+
+
+#[0-9]+#
+=> il faut moins un chiffre
+
+
+*Etre plus précis grâce aux accolades*
+
+Préciser le nbre de répétition => avec accolades { }
+
+Il y a trois façons d'utiliser les accolades.
+
+{3} : si on met juste un nombre, cela veut dire que la lettre (ou le groupe de lettres s'il est entre parenthèses) doit être répétée 3 fois exactement.
+#a{3}#fonctionne donc pour la chaîne « aaa ».
+
+{3,5} : ici, on a plusieurs possibilités. On peut avoir la lettre de 3 à 5 fois.
+#a{3,5}#fonctionne pour « aaa », « aaaa », « aaaaa ».
+
+{3,} : si vous mettez une virgule, mais pas de 2e nombre, ça veut dire qu'il peut y en avoir jusqu'à l'infini. Ici, cela signifie « 3 fois ou plus ».
+#a{3,}#fonctionne pour « aaa », « aaaa », « aaaaa », « aaaaaa », etc. Je ne vais pas tous les écrire, ça serait un peu long.
+
+Si vous faites attention, vous remarquez que :
+
+?	revient à écrire {0,1} ;
+
++	revient à écrire {1,} ;
+
+*	revient à écrire {0,}.
+
+
+
+
+
+
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
 

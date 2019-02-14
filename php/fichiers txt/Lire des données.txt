@@ -156,7 +156,7 @@ $reponse avec ttes les infos mysql en vrac, sous forme d'objet
 $donnees est un array que renvoie fetch()
 while s'arrête dès que le fetch() renvoie FALSE, à la fin.
 
-!! sert à fermerla requête-ci pr ne pas avoir de prob avec la suivante :
+!! sert à fermer la requête-ci pr ne pas avoir de prob avec la suivante :
 <?php $reponse->closeCursor(); ?>
 
 

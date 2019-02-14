@@ -13,7 +13,8 @@ $noir = imagecolorallocate($image, 0, 0, 0);
 $blanc = imagecolorallocate($image, 255, 255, 255);
 
 imagestring($image, 5, 35, 15, "Cours php", $noir);
-imagecolortransparent($image, $bleuclair); // On rend le fond orange transparent
+//imagecolortransparent($image, $bleuclair); 
+// On rend le fond orange transparent
 
 imagepng($image); // 4 : on a fini de faire joujou, on demande à afficher l'image
 ?>

@@ -1,0 +1,86 @@
+14/02/2019
+
+
+			LES EXPRESSIONS REGULIERES 2/2
+
+
+**Une histoire de métacaractères**
+
+les métacaractères = caractères spéciaux
+
+dans lang PCRE des regex les métacaractères qu'il faut connaître :
+
+	# ! ^ $ ( ) [ ] { } ? + * . \ |
+
+
+si on cherche "Quoi ?" dans une chaine, l'écrire ainsi :
+#Quoi \?#
+
+il faut "échapper", c-a-d mettre un antislash pr ne pas confondre les 2 ?
+
+le ? ici => veut dire que le symb n'est special, mais une lettre comme une autre
+
+même méthode pr les autres métacaractères !! même pour antislash !!
+
+
+
+*Le cas des classes*
+
+les accents : [a-zéèàêâùïüë]
+
+si on veut lister des caractères spéciaux : pas besoin d'antislash !
+dans des crochets les métac ne comptent plus :
+
+#[a-z?+*{}]# 
+=> Elle signifie qu'on a le droit de mettre une lettre, un point d'interrogation, un signe+, etc
+
+
+
+!! 3 cas à part :
+
+	# => sert tjours à signaler la fin de la regex, si on veut la mettre dans la liste,
+		il faut l'antislash !
+
+	]  => (crochet fermant) indique la fin de la classe; mettre antislash !
+
+	- => (tiret) sert à définir un intervalle de classe; dont le mettre soit au début
+		ou à la fin de la classe 
+
+
+[a-z0-9-]
+=> permet de chercher une lettre, un chiffre ou un tiret.
+
+
+
+
+**Les classes abrégées**
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

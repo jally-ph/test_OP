@@ -4,7 +4,8 @@
 /*
 - PAGE INDEX PHP
 - TP MINI CHAT
-- TP BLOG
+- TP BLOG [vide]
+- EXPRESSIONS REGULIERES
 
 
 
@@ -147,14 +148,30 @@
 }
 
 
-
-
-
-
 /* =======================================================
 					   TP BLOG 
 ======================================================== */
 
 
 
+
+
+/* =======================================================
+				EXPRESSIONS REGULIERES 
+======================================================== */
+
+
+#background_express_reg1
+{
+	background-color: #f3a8a8;
+	color: white;
+	text-align: center;
+}
+
+#background_express_reg2
+{
+	background-color: #9698da;
+	color: white;
+	text-align: center;
+}
 

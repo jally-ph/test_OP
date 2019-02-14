@@ -1,8 +1,7 @@
-
 <!DOCTYPE html>
 <html>
 <head>
-	<title>Exercices PHP</title>
+	<title>Exp Reg 2/2</title>
 	<meta charset="utf-8">
 	<!-- Viewport -->
 	<meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
@@ -16,24 +15,36 @@
 	<link rel="icon" href="images/favicon.jpg" />
 </head>
 
-<body>
+<body id="background_express_reg2">
+
+	<?php
 	
-	<p><a href="lire_des_donnees.php" class="links_php">Lire et écrire des données</a></p>
+	//citer des métacaractères
 
-	<p><a href="tp_minichat.php" class="links_php">TP Mini-chat</a></p>
+if (preg_match("#\(très\) fatigué#", "Je suis (très) fatigué"))
+{
+    echo '<p>VRAI : (très) fatigué repéré</p>';
+}
+else
+{
+    echo '<p>FAUX : (très) fatigué non repéré</p>';
+}
 
-	<p><a href="fonctions_sql.php" class="links_php">Les Fonctions SQL</a></p>
 
-	<p><a href="tp_blog.php" class="links_php">TP Blog</a></p>
+if (preg_match("#\!\!#", "Je suis rassassié !!"))
+{
+    echo '<p>VRAI : !! repéré</p>';
+}
+else
+{
+    echo '<p>FAUX : !! non repéré</p>';
+}
 
-	<p><a href="jointures_entre_tables.php" class="links_php">Les Jointures entre tables</a></p>
 
-	<p><a href="creer_images.php" class="links_php">Créer des images en PHP</a><img src="creer_images.php" /></p>
 
-	<p><a href="expression_reg1.php" class="links_php">Expressions régulières 1/2</a></p>
 
-	<p><a href="expression_reg2.php" class="links_php">Expressions régulières 2/2</a></p>
+?> 
 
-	
+
 </body>
 </html>
